@@ -2,7 +2,7 @@
 
 block_cipher = None
 
-path = 'C:\\Users\\Simon\\Documents\\Washington_FWHS\\CG&SP_SimonS_FWHS\\Space War'
+path = 'C:\\Users\\Simon\\Documents\\Washington_FWHS\\CG&SP_SimonS_FWHS'
 a = Analysis(['main.py'],
              pathex=[path],
              binaries=[],
@@ -28,7 +28,7 @@ exe = EXE(pyz,
           a.binaries,
           a.zipfiles,
           a.datas + data_files,
-          name='main',
+          name='spacewar',
           debug=False,
           strip=False,
           upx=True,
