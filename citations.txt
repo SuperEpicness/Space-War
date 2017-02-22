@@ -1,0 +1,8 @@
+CITATIONS (sources used):
+
+Asteroid sprites: Game Creators Forum
+    free asteroid sprites/animation
+
+Powerup sounds: SFX WORLD
+
+Explosion sounds: SoundBible
