@@ -1,2 +1,5 @@
 BUG01 - Asteroid "bouncing" rotation
-          * FIXED 03/01/2017
+          * FIXED 03/01/2017 4:25 PM
+
+BUG02 - No visual difference between L & R flanks
+          * FIXED 03/01/2017 5:09 PM
