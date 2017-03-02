@@ -312,6 +312,7 @@ class LevelOne(Level):
 
         # Your ship on the minimap
         pygame.draw.rect(screen, [100, 100, 100], [WIDTH - 65, 54, 65, 11], 0)
+        pygame.draw.rect(screen, [100, 100, 100], [WIDTH - 40, 45, 20, 20], 0)
 
         # Flashes on the screen
         if self.flash_frame > -1:
@@ -348,8 +349,8 @@ class LevelOne(Level):
                 target = list(target_enemy.rect.center)
 
                 # Done to make it so that the missile can predict the enemy's movement in advance
-                target[0] += target_enemy.move_vector[0] * 10
-                target[1] += target_enemy.move_vector[1] * 10
+                target[0] += target_enemy.move_vector[0] * 15
+                target[1] += target_enemy.move_vector[1] * 15
 
                 missile = random.choice(missiles)
             

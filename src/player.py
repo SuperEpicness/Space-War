@@ -190,19 +190,37 @@ class LaserBolt(pygame.sprite.Sprite):
 
 # Subclass of LaserBolt, the missiles on the adjacent screens
 class Missile(LaserBolt):
-    def __init__(self, starting_position, level, screen, speed = 30):
+    def __init__(self, starting_position, level, screen, speed = 1):
         LaserBolt.__init__(self, starting_position, [starting_position[0], starting_position[1] - 1], level, 4, screen, "RESOURCES/missile_off.png", speed)
         self.state = 0
         self.counter = 0
+        self.target = None
+        self.original_img = self.image.copy()
 
     # Points the missile at the target and activates the sprite
     def fire_at(self, target):
-        LaserBolt.__init__(self, self.rect.center, target, self.level, 4, self.screen, "RESOURCES/missile1.png", self.speed)
-        self.state = 1
+        if type(target) == list:
+            LaserBolt.__init__(self, self.rect.center, target, self.level, 4, self.screen, "RESOURCES/missile1.png", self.speed)
+            self.state = 1
+        else:
+            LaserBolt.__init__(self, self.rect.center, target.pos, self.level, 4, self.screen, "RESOURCES/missile1.png", self.speed)
+            self.state = 2
+            self.target = target
+        pygame.mixer.Sound("RESOURCES/Sounds/Rocket.wav").play()
 
     def update(self):
-        if self.state == 1:
+        if self.state != 0:
             LaserBolt.update(self)
+            self.speed += 1
+
+        if self.state == 2:
+            if self.target in self.level.groups["Enemies"] and self.target.screen == self.screen and self.speed > 5:
+                start = self.rect.center
+                end = self.target.pos
+                self.angle = (math.atan2(start[1] - end[1], end[0] - start[0]) * (180 / math.pi)) + random.randint(-3, 3)
+                self.move_vector = [math.cos(self.angle * (math.pi / 180)), math.sin(self.angle * (math.pi / 180))]
+                
+                self.image = pygame.transform.rotate(self.original_image, self.angle)
 
     def delete(self):
         # Deletes the sprite and places an explosion in its place
