@@ -1,0 +1,2 @@
+BUG01 - Asteroid "bouncing" rotation
+          * FIXED 03/01/2017
