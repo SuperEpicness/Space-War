@@ -178,7 +178,7 @@ while playing:
 
             if event.key == pygame.K_SPACE:
                 if level == title_level and game_level == None:
-                    game_level = LevelOne(LIVES, 0, 2)
+                    game_level = LevelOne(LIVES, 0, 1)
                     level = game_level
 
     if level == game_level and level.stopped_flag:

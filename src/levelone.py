@@ -267,8 +267,6 @@ class LevelOne(Level):
                 t = random.randint(11, 22) - (self.lv - 1)
                 if t < 6:
                     t = 6
-                else:
-                    t = 1
                 if time.time() - self.asteroid_timer > t and self.lv > 1:
                     ast = EnemyAsteroid(self, random.randint(0, 2), size = random.randint(1, 2), ast_type = random.randint(1, 3))
                     self.groups["Enemies"].add(ast)

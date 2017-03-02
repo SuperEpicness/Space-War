@@ -129,28 +129,28 @@ class EnemyAsteroid(EnemyBase):
         self.angle_change = random.uniform(-3, 3)
 
         self.surf = pygame.transform.rotate(self.image, self.angle)
-        self.surf_rect = self.rect
+        self.surf_rect = self.rect.copy() # BLIT RECT; self.rect IS THE ORIGINAL
 
         # For moving the sprite
         self.move_vector = [random.randint(-3, 3), random.randint(1, 4)]
 
     def render(self, screen):
         if self.level.screen == self.screen:
-            screen.blit(self.surf, self.rect)
+            screen.blit(self.surf, self.surf_rect)
 
     def update(self):
-        # Moves the sprite
-        self.rect.centerx += self.move_vector[0]
-        self.rect.centery += self.move_vector[1]
-        pos = [self.rect.centerx, self.rect.centery]
-
         # Changes the angle
         self.angle += self.angle_change
 
         # Rotates the image
         self.surf = pygame.transform.rotate(self.image, self.angle)
-        self.rect = self.image.get_rect()
-        self.rect.center = pos
+        self.surf_rect.centerx = self.rect.centerx - (self.surf.get_rect().w - self.rect.w) / 2
+        self.surf_rect.centery = self.rect.centery - (self.surf.get_rect().h - self.rect.h) / 2
+
+        # Moves the sprite
+        self.rect.centerx += self.move_vector[0]
+        self.rect.centery += self.move_vector[1]
+        pos = [self.rect.centerx, self.rect.centery]
 
         # Checks if the sprite went off the left or right side of the screen
         if self.rect.x < -self.rect.w:
