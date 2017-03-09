@@ -9,7 +9,7 @@ from gameover import GameOverLevel, LostALifeLevel
 
 pygame.init()
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
-pygame.display.set_caption("Space War ~ FBLA CG&SP_SimonS_FWHS")
+pygame.display.set_caption("Mothership ~ FBLA CG&SP_SimonS_FWHS")
 pygame.display.set_icon(pygame.image.load("RESOURCES/icon.png"))
 level = None
 
