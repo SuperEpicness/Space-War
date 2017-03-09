@@ -7,4 +7,4 @@ Version Number: 1.1.0
 
 Notes:
 
-If the shortcut does not work, enter the 'dist' folder and run 'mothership.exe'
+To run the program, enter the 'dist' folder and run "mothership.exe"

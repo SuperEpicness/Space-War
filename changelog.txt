@@ -3,3 +3,10 @@ BUG01 - Asteroid "bouncing" rotation
 
 BUG02 - No visual difference between L & R flanks
           * FIXED 03/01/2017 5:09 PM
+
+BUG03 - Missiles do not point towards their targets
+          * FIXED 03/08/2017 4:33 PM
+
+BUG04 - Missiles do not follow enemies when they are below them and
+        to the right.
+          * FIXED 03/08/2017 4:15 PM
