@@ -108,7 +108,7 @@ def set_up_title_screen():
     title_level.add_sprite(BACKGROUND_Planet("RESOURCES/Planets/Planet01.png", 250, 270, -2, -1, 0.1))
 
     title_logo = PlayerClass("RESOURCES/logo.png")
-    title_logo.rect.center = [WIDTH / 2, 300]
+    title_logo.rect.center = [WIDTH / 2, 235]
 
     # HIGHSCORES
     scores = parse_highscores("RESOURCES/highscores.txt")
@@ -119,8 +119,8 @@ def set_up_title_screen():
                               scores[i][0] + "  " + scores[i][1], (255, 255, 255), (WIDTH - 105, 15 + (15*(i+1)))])
     
     title_level.add_sprite(title_logo)
-    title_level.add_sprite(BACKGROUND_InsertCoin([260, 420]))
-##    title_level.add_sprite(BACKGROUND_Instructions())
+    title_level.add_sprite(BACKGROUND_InsertCoin([260, 365]))
+    title_level.add_sprite(BACKGROUND_Instructions())
 
     return title_level
 
@@ -178,7 +178,7 @@ while playing:
 
             if event.key == pygame.K_SPACE:
                 if level == title_level and game_level == None:
-                    game_level = LevelOne(LIVES, 0, 2)
+                    game_level = LevelOne(LIVES, 0, 1)
                     level = game_level
 
     if level == game_level and level.stopped_flag:

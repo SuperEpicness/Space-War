@@ -125,25 +125,32 @@ class LaserBolt(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         self.image = pygame.image.load(img)
+        self.original_image = self.image.copy()
         self.rect = self.image.get_rect()
         self.rect.center = starting_position
 
         # Used for making the sprite face the crosshairs at their current position
         self.start = starting_position
         self.points_towards = ending_position
-        self.angle = (math.atan2(self.start[1] - self.points_towards[1], self.points_towards[0] - self.start[0]) * (180 / math.pi)) + random.randint(-3, 3)
+        self.set_angle((math.atan2(self.start[1] - self.points_towards[1], self.points_towards[0] - self.start[0]) * (180 / math.pi)) + random.randint(-3, 3))
         
-        self.move_vector = [math.cos(self.angle * (math.pi / 180)), math.sin(self.angle * (math.pi / 180))]
+        self.move_vector = [math.cos(self.get_angle() * (math.pi / 180)), math.sin(self.angle * (math.pi / 180))]
         self.speed = speed
 
         # Turns the image accordingly
-        self.image = pygame.transform.rotate(self.image, self.angle)
+        self.image = pygame.transform.rotate(self.image, self.get_angle())
         self.rect = self.image.get_rect()
         self.rect.center = starting_position
 
         self.level = level
         self.screen = screen
         self.damage = damage
+
+    def set_angle(self, angle):
+        self.angle = angle
+
+    def get_angle(self):
+        return self.angle
 
     def render(self, screen):
         if self.level.screen == self.screen:
@@ -192,10 +199,10 @@ class LaserBolt(pygame.sprite.Sprite):
 class Missile(LaserBolt):
     def __init__(self, starting_position, level, screen, speed = 1):
         LaserBolt.__init__(self, starting_position, [starting_position[0], starting_position[1] - 1], level, 4, screen, "RESOURCES/missile_off.png", speed)
+        self.set_angle(90)
         self.state = 0
         self.counter = 0
         self.target = None
-        self.original_img = self.image.copy()
 
     # Points the missile at the target and activates the sprite
     def fire_at(self, target):
@@ -203,24 +210,39 @@ class Missile(LaserBolt):
             LaserBolt.__init__(self, self.rect.center, target, self.level, 4, self.screen, "RESOURCES/missile1.png", self.speed)
             self.state = 1
         else:
-            LaserBolt.__init__(self, self.rect.center, target.pos, self.level, 4, self.screen, "RESOURCES/missile1.png", self.speed)
+            LaserBolt.__init__(self, self.rect.center, self.points_towards, self.level, 4, self.screen, "RESOURCES/missile1.png", self.speed)
+            self.set_angle(90)
             self.state = 2
             self.target = target
+            self.original_img = self.image.copy()
         pygame.mixer.Sound("RESOURCES/Sounds/Rocket.wav").play()
+
+    def render(self, screen):
+        if self.level.screen == self.screen:
+            screen.blit(pygame.transform.rotate(self.original_image, self.angle), self.rect)
 
     def update(self):
         if self.state != 0:
             LaserBolt.update(self)
-            self.speed += 1
+            if self.speed < 14:
+                self.speed += 1
 
         if self.state == 2:
             if self.target in self.level.groups["Enemies"] and self.target.screen == self.screen and self.speed > 5:
                 start = self.rect.center
-                end = self.target.pos
-                self.angle = (math.atan2(start[1] - end[1], end[0] - start[0]) * (180 / math.pi)) + random.randint(-3, 3)
+                end = self.target.rect.center
+                angle = math.atan2(start[1] - end[1], end[0] - start[0]) * (180 / math.pi)
+                delta_angle = angle - self.angle
+                if delta_angle < -180:
+                    delta_angle = 360 - delta_angle
+                max_turning_angle = 5
+                if delta_angle >= -max_turning_angle and delta_angle <= max_turning_angle:
+                    self.angle -= delta_angle
+                elif delta_angle > max_turning_angle:
+                    self.angle += max_turning_angle
+                else:
+                    self.angle -= max_turning_angle
                 self.move_vector = [math.cos(self.angle * (math.pi / 180)), math.sin(self.angle * (math.pi / 180))]
-                
-                self.image = pygame.transform.rotate(self.original_image, self.angle)
 
     def delete(self):
         # Deletes the sprite and places an explosion in its place

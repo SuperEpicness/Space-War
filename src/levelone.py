@@ -346,15 +346,10 @@ class LevelOne(Level):
                         target_enemy = enemy
                         break
                 target_enemy = random.choice(enemies_on_screen)
-                target = list(target_enemy.rect.center)
-
-                # Done to make it so that the missile can predict the enemy's movement in advance
-                target[0] += target_enemy.move_vector[0] * 15
-                target[1] += target_enemy.move_vector[1] * 15
 
                 missile = random.choice(missiles)
             
-                missile.fire_at(target)
+                missile.fire_at(target_enemy)
 
                 return missile
 

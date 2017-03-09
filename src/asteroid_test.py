@@ -5,7 +5,7 @@ screen = pygame.display.set_mode([800, 600])
 pygame.display.set_caption("Asteroid Test")
 
 sprite = pygame.sprite.Sprite()
-sprite.image = pygame.image.load("RESOURCES/Asteroids/asteroid1.png")
+sprite.image = pygame.image.load("RESOURCES/missile1.png")
 sprite_surf = sprite.image.copy()
 sprite.rect = sprite.image.get_rect()
 sprite_rect = sprite.rect.copy()
